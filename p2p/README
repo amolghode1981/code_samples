@@ -1,0 +1,65 @@
+1. This is a simple websocket based WebRTC peer to peer call. This code implements its own protocol to establish a peer to peer connection. 
+2. Every client must register to the server to be able to call the another registered client. While the server can handle any 
+number of peer to peer calls, this does not implement conferencing.
+3. The server is written using express application and works on HTTPS.
+4. Requirements : Nodejs and npm.
+4. Running the server:
+    1. untar the p2p.tar to some location. tar xvf p2p.tar
+    2. cd p2p
+    3. npm install
+    4. npm start
+5. Using client :
+    1. goto https://<serverip>:5080/client/client.html
+    2. enter the user id and click on register.
+    3. You can either call another registered user or wait to receive the call.
+6. Notes:
+    1. Because chrome has restricted the usage of sites with unknown certificate, this does not work with chrome. Either run it on firefox or safari.
+    2. Client asks for the audio video permissions for the first time. Allow them.
+    3. To run it on EC2 server, you need to add a security exception to allow port 5080 in the security group for the machine.
+7. Testcases :
+    1. Functional : Peer to Peer call works (Tested):
+        a. Open 2 clients in 2 different browser window. Both running on different machine is an ideal scenario.
+        b. Register both the clients with valid client id.
+        c. Verify that the registration confirmation alert is shown.
+        d. Try calling another client by using the clients id.
+        e. Verify that both clients can see each other and can hear each other's audio-video.
+    2. Functional : Peer to Peer call gets disconnected.
+        a. Open 2 clients in 2 different browser window. Both running on different machine is an ideal scenario.
+        b. Register both the clients with valid client id.
+        c. Verify that the registration confirmation alert is shown.
+        d. Try calling another client by using the clients id.
+        e. Verify that both clients can see each other and can hear each other's audio-video.
+        f. Click on disconnect.
+        g. Verify that the media is stopped. 
+        h. Verify that the camera usage indicator lamp is off. (This will ensure that you have closed the local streams.)
+    3. Unit/Integration : Server can be integrated with any client following the signaling protocol (Not tested)
+        a. Write javascript modules which verify that the server correctly responds to various requests.
+        b. Make sure that when incorrect message is passed to the server, it returns correct error to the client.
+    4. Server capacity test (Not evaluated)
+        a. Create a multiple client-server pair using canned sdps.
+        b. Measure the total number of p2p calls server supports.
+    5. Functional : Verify the working of the client across various network conditions. (Not tested)
+        a. Try different firewall/NAT configurations.
+        b. Evaluate the requirements for the STUN/TURN server for each configuration.
+        c. Verify that the end to end call works.
+    6. Fuctional : Behaviour when socket disconnects abruptly. (Not implemented Not tested)
+        a. Register a client.
+        b. Before registration is confirmed, disconnect the network.
+        c. Make sure that correct message is shown on the client side after time out.
+        d. Via another client, try to send the message to this abruptly disconnected client. Verify that server sends 
+        correct error describing the non-reachability of the other client.
+        e. Disconnect at various steps (After sending offer, after sending ICE candidate etc
+        f. Verify that the server handles these disconnections gracefully.
+8. Enhancements This code demonstrates a basic peer to peer webrtc call. Lot of things can be enhanced, list of the few is as follows :
+    1. Make websocket url configurable with better UI (Client).
+    2. Logging (Client and server).
+    3. Enhanced protocol for conferencing (Server)
+    4. Writing the conferencing client. (Client)
+    5. Enhancing the protocol for using it with SFU if such a unit is available (Server)
+    6. Database support for user identity, presence (Server)
+    7. Adding presence to the client (client)
+
+        
+    
+
+

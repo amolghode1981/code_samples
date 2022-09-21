@@ -1,0 +1,41 @@
+ <!DOCTYPE html>
+  <html>
+    <head>
+    <script src="client.js" > </script>
+		<script src="methods.js" > </script>
+    </head>
+    <body onload="onload()">
+      <label for="client_id">Client Id</label>
+      <textarea id="client_id" name="undefined" rows="1" cols="20"></textarea>
+      <button id="register">Register</button>
+
+      <label for="remote_peer_id">Remote Peer Id</label>
+      <textarea id="remote_peer_id" name="undefined" rows="1" cols="20"></textarea>
+      <button id="call">call</button>
+      <button id="disconnect">Disconnect</button>
+      <div>
+        <video id="nearEnd" autoplay="autoplay"></video>
+        <video id="farEnd" autoplay="autoplay"></video>
+      </div>
+	  <script>
+        var client = null;
+	  			async function onload() {
+            client = new WebRTCClient("wss://ec2-54-169-42-46.ap-southeast-1.compute.amazonaws.com:5080/",
+                                          "amol");
+            await client.connect();
+
+          }
+          register.onclick = function () {
+            let clientId = document.getElementById("client_id").value;
+            client.registerEndpoint(clientId);
+          }
+          call.onclick = function () {
+            let remotePeer = document.getElementById("remote_peer_id").value;
+            client.callPeer(remotePeer);
+          }
+          disconnect.onclick = function() {
+            client.endCall();
+          }
+		</script>
+    </body>
+  </html>
