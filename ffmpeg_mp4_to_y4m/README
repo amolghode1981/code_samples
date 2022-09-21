@@ -1,0 +1,10 @@
+Notes :
+1.  This tar contains the File decoder code. MP4Handler class is responsible for opening mp4 file and decoding it 
+packet by packet.
+2. MP4Driver.cpp contains main, which drives this program.
+3. This code does not handle dumping of audio data, and as per my understanding, it may not be possible
+to have audio in y4m files (Which could be incorrect).
+4. My understanding and comments about the problem are in the header comment of MP4Handler.cpp 
+5. There is no make file written. I used a command line
+ g++ -g -Wall -o MP4Decoder  MP4Handler.cpp MP4Decoder.cpp -I /usr/include/x86_64-linux-gnu  -I. -lavcodec -lavformat -lavutil -lswresample -L /usr/lib/x86_64-linux-gnu   -lz -lm -lpthread  -lstdc++
+
